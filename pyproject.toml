@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shu-exam"
+version = "0.1.0"
+description = "Practice Shu Exam questions in the terminal and get your answers reviewed by Claude or Gemini."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "google-genai>=2.34,<3",
+    "pydantic>=2,<3",
+    "pymupdf>=2.1,<3",
+    "python-dotenv>=1,<2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+voice = ["faster-whisper>=1.2,<2", "numpy>=2,<3", "sounddevice>=0.5,<1"]
+
+[project.scripts]
+shu-exam = "shu_exam.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
