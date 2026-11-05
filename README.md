@@ -6,7 +6,7 @@ reference answer in your exam notes.
 
 ## Setup
 
-You need Python 3.10+ and one of the two options below.
+You need Python 3.11+ and one of the two options below.
 
 ```powershell
 git clone <this repo> shu_exam

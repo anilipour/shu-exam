@@ -7,7 +7,7 @@ name = "shu-exam"
 version = "0.1.0"
 description = "Practice Shu Exam questions in the terminal and get your answers reviewed by Claude or Gemini."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "google-genai>=2.34,<3",
     "pydantic>=2,<3",
