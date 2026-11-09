@@ -86,12 +86,13 @@ def _is_heading_start(line: _Line, expected: int) -> bool:
     )
 
 
-def _is_heading_continuation(line: _Line) -> bool:
+def _is_heading_continuation(line: _Line, indent: float) -> bool:
+    """True for a wrapped heading line, which lines up with the heading's text."""
     first = line.spans[0]
     bold = sum(len(s["text"]) for s in line.spans if _is_bold(s))
     total = sum(len(s["text"]) for s in line.spans)
     return (
-        85 < first["bbox"][0] < 100
+        abs(first["bbox"][0] - indent) < 3
         and 11 < max(s["size"] for s in line.spans) < 13
         and bold / total > 0.5
     )
@@ -136,6 +137,8 @@ class ExamDocument:
                         "number": len(found) + 1,
                         "chapter": self._chapter_for(page_number),
                         "heading": [_text(line.spans[1:])],
+                        # Wrapped lines align with the text after the number.
+                        "indent": line.spans[1]["bbox"][0],
                         "first_page": page_number,
                         "last_page": page_number,
                         "has_reference": False,
@@ -144,7 +147,11 @@ class ExamDocument:
                     in_heading = True
                 elif current is None or (line is not None and _is_page_furniture(line)):
                     continue
-                elif in_heading and line is not None and _is_heading_continuation(line):
+                elif (
+                    in_heading
+                    and line is not None
+                    and _is_heading_continuation(line, current["indent"])
+                ):
                     current["heading"].append(_text(line.spans))
                 else:
                     in_heading = False

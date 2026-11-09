@@ -23,12 +23,16 @@ def exam():
 
 
 def test_finds_all_questions_in_order(exam):
-    assert [q.number for q in exam.questions] == list(range(1, 91))
+    assert [q.number for q in exam.questions] == list(range(1, 101))
     assert all(q.text and q.chapter for q in exam.questions)
 
 
-def test_questions_without_written_answers(exam):
-    assert {q.number for q in exam.questions if not q.has_reference} == set(range(79, 91))
+def test_every_question_has_a_written_answer(exam):
+    assert all(q.has_reference for q in exam.questions)
+
+
+def test_wrapped_heading_after_three_digit_number(exam):
+    assert exam.get(100).text.endswith("two proposed physical explanations for the phenomena.")
 
 
 def test_chapter_boundary_excludes_next_chapter_page(exam):
@@ -41,7 +45,8 @@ def test_answer_spills_onto_page_of_next_heading(exam):
 
 
 def test_figure_after_last_answer_belongs_to_it(exam):
-    assert exam.get(78).last_page == 71
+    # Figure 7.1 sits alone at the top of page 72, above question 79.
+    assert exam.get(78).last_page == 72
 
 
 def test_chapter_filter(exam):

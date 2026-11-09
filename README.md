@@ -86,8 +86,8 @@ can read the equations and figures. Nothing else leaves your machine.
   removes any `ANTHROPIC_API_KEY` from that command so it uses your login.
 - `gemini` uses `gemini-3.8-flash` by default.
 
-Questions 79-90 have no written answer in the current PDF. For those, the tool
-says so before you start, and the model uses its own knowledge.
+If a question has no written answer in the PDF, the tool says so before you
+start, and the model uses its own knowledge.
 
 ## Development
 
